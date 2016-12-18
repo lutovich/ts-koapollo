@@ -1,0 +1,22 @@
+{
+  "name": "ts-relay-iso",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Tim Hope",
+  "license": "ISC",
+  "dependencies": {
+    "@types/winston": "0.0.32",
+    "koa": "^1.2.4",
+    "winston": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.0.35",
+    "tslint": "^4.1.1",
+    "tslint-react": "^2.2.0",
+    "typescript": "^2.1.4"
+  }
+}
