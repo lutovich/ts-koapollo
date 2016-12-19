@@ -8,4 +8,4 @@ app.use( function *() {
 });
 
 app.listen(3000);
-winston.log('INFO', 'Listening on port 3000');
+winston.info('Listening on port 3000');
