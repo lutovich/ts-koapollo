@@ -77,7 +77,7 @@ app.use(function *() {
 	});
 });
 
-app.listen(basePort, () => winston.info(`App Server is now listening on http://localhost:${basePort}`));
+export default app;
 
 // https://medium.com/@arpith/server-rendering-with-react-router-6ad13d71406e#.v9occ6xjf
 // https://github.com/apollostack/GitHunt-React/blob/master/ui/server.js

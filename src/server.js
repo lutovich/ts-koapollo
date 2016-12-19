@@ -68,4 +68,5 @@ app.use(function* () {
         }
     });
 });
-app.listen(basePort, () => winston.info(`App Server is now listening on http://localhost:${basePort}`));
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = app;

@@ -34,4 +34,4 @@ render((
 			{routes}
 		</Router>
 	</ApolloProvider>
-), document.getElementById('conent'));
+), document.getElementById('content'));
