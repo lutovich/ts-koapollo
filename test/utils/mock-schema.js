@@ -39,7 +39,13 @@ const schema = graphql_tools_1.makeExecutableSchema({
         log: (e) => winston_1.default.error('Schema Error:', e),
     },
 });
-graphql_tools_1.addMockFunctionsToSchema({ schema });
+graphql_tools_1.addMockFunctionsToSchema({
+    schema,
+    mocks: {
+        Int: () => 6,
+        String: () => 'String',
+    },
+});
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = schema;
 //# sourceMappingURL=mock-schema.js.map

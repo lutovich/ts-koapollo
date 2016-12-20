@@ -60,11 +60,20 @@ let GraphQLServerTests = GraphQLServerTests_1 = class GraphQLServerTests {
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('Accept', 'application/json');
         xhr.onloadend = () => {
-            const data = xhr.response.data;
-            expect(xhr.response.data).to.equal(200);
+            const posts = xhr.response.data.posts;
+            posts.map((post, i) => {
+                expect(post.id).to.equal(6);
+                expect(post.title).to.equal('String');
+            });
             done();
         };
         xhr.send(`{ "query": "{ posts {id, title} }" }`);
+    }
+    'Serves GraphiQL.'(done) {
+        http.get('http://localhost:3000/graphiql', (res) => {
+            expect(res.statusCode).to.equal(200);
+            done();
+        });
     }
 };
 __decorate([
@@ -80,32 +89,37 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], GraphQLServerTests.prototype, "It should call the server callback.", null);
 __decorate([
-    mocha_typescript_1.test, mocha_typescript_1.timeout(100),
+    mocha_typescript_1.test, mocha_typescript_1.timeout(1000),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], GraphQLServerTests.prototype, "It should be listening on the designated port.", null);
 __decorate([
-    mocha_typescript_1.test, mocha_typescript_1.timeout(100),
+    mocha_typescript_1.test, mocha_typescript_1.timeout(1000),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], GraphQLServerTests.prototype, "Index Route should be 404.", null);
 __decorate([
-    mocha_typescript_1.test, mocha_typescript_1.timeout(100),
+    mocha_typescript_1.test, mocha_typescript_1.timeout(1000),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], GraphQLServerTests.prototype, "Responds to a basic query.", null);
 __decorate([
-    mocha_typescript_1.test, mocha_typescript_1.timeout(100),
+    mocha_typescript_1.test, mocha_typescript_1.timeout(1000),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], GraphQLServerTests.prototype, "Responds accurately to a basic query.", null);
+__decorate([
+    mocha_typescript_1.test, mocha_typescript_1.timeout(1000),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], GraphQLServerTests.prototype, "Serves GraphiQL.", null);
 GraphQLServerTests = GraphQLServerTests_1 = __decorate([
-    mocha_typescript_1.suite,
-    __metadata("design:paramtypes", [])
+    mocha_typescript_1.suite
 ], GraphQLServerTests);
 var GraphQLServerTests_1;
 //# sourceMappingURL=graphQLServer.spec.js.map

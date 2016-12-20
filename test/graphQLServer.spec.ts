@@ -20,8 +20,9 @@ import {
 } from 'mocha-typescript';
 
 @suite class GraphQLServerTests {
-	static graphQLServer: any;
+	static graphQLServer: GraphQLServer;
 	static serverCallback: sinon.SinonSpy;
+
 	static before() {
 		console.log('    Before the Tests\n      Mount the Server');
 		this.serverCallback = sinon.spy();
@@ -37,19 +38,19 @@ import {
 	@test 'It should call the server callback.'() {
 		GraphQLServerTests.serverCallback.should.have.been.called;
 	}
-	@test @timeout(100) 'It should be listening on the designated port.' ( done ) {
+	@test @timeout(1000) 'It should be listening on the designated port.' ( done ) {
 		http.get('http://localhost:3000', ( res ) => {
 			expect( res ).to.exist;
 			done();
 		});
 	}
-	@test @timeout(100) 'Index Route should be 404.' ( done ) {
+	@test @timeout(1000) 'Index Route should be 404.' ( done ) {
 		http.get('http://localhost:3000/', ( res ) => {
 			expect( res.statusCode ).to.equal( 404 );
 			done();
 		});
 	}
-	@test @timeout(100) 'Responds to a basic query.' ( done ) {
+	@test @timeout(1000) 'Responds to a basic query.' ( done ) {
 		const xhr = new XHR();
 		xhr.responseType = 'json';
 		xhr.open('POST', 'http://localhost:3000/graphql');
@@ -61,17 +62,28 @@ import {
 		}
 		xhr.send( `{ "query": "{ posts {id, title} }" }` );
 	}
-	@test @timeout(100) 'Responds accurately to a basic query.' ( done ) {
+	@test @timeout(1000) 'Responds accurately to a basic query.' ( done ) {
 		const xhr = new XHR();
 		xhr.responseType = 'json';
 		xhr.open('POST', 'http://localhost:3000/graphql');
 		xhr.setRequestHeader('Content-Type', 'application/json');
 		xhr.setRequestHeader('Accept', 'application/json');
 		xhr.onloadend = () => {
-			const data = xhr.response.data;
-			expect( xhr.response.data ).to.equal( 200 );
+			const posts = xhr.response.data.posts;
+			posts.map(
+				( post, i ) => {
+					expect( post.id ).to.equal( 6 );
+					expect( post.title ).to.equal( 'String' );
+				},
+			);
 			done();
 		}
 		xhr.send( `{ "query": "{ posts {id, title} }" }` );
+	}
+	@test @timeout(1000) 'Serves GraphiQL.' ( done ) {
+		http.get('http://localhost:3000/graphiql', ( res ) => {
+			expect( res.statusCode ).to.equal( 200 );
+			done();
+		})
 	}
 }

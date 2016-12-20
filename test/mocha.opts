@@ -1,4 +1,5 @@
 --require test/utils/dom.js
---require chai
---require sinon
---require winston
+--compilers ts:ts-node/register,tsx:ts-node/register
+--full-trace
+--bail
+test/**/*.spec.ts test/**/*.spec.tsx

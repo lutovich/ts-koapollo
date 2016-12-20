@@ -44,6 +44,12 @@ const schema = makeExecutableSchema({
 		},
 });
 
-addMockFunctionsToSchema({ schema });
+addMockFunctionsToSchema({
+	schema,
+	mocks: {
+		Int: () => 6,
+		String: () => 'String',
+	},
+});
 
 export default schema;

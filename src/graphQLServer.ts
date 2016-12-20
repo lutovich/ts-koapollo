@@ -24,16 +24,11 @@ export default class GraphQLServer {
 		// Create GraphiQL route
 		this.router.get('/graphiql', graphiqlKoa({
 			endpointURL: '/graphql',
-			query: '{ posts ( first: 2 ) { id } }',
 		}));
 		this.server.use(this.router.routes());
 		this.server.use(this.router.allowedMethods());
 
 		// Start it up!
 		this.server.listen( port, callback() );
-	}
-	end = () => {
-		// Fancy deinstantiation
-		delete this;
 	}
 }
