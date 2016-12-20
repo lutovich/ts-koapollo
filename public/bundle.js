@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/Sylvester/Dev/ts-koapollo/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/Sylvester/Dev/ts-koapollo/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("C:\\Users\\TimothyH\\Documents\\GitHub\\ts-koapollo\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("C:\\Users\\TimothyH\\Documents\\GitHub\\ts-koapollo\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
 	
 	"use strict";
 	const React = __webpack_require__(1);
@@ -72,7 +72,7 @@
 	    React.createElement(react_router_1.Router, { history: react_router_1.browserHistory }, routes_1.default))), document.getElementById('content'));
 	
 
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/Sylvester/Dev/ts-koapollo/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "client.tsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("C:\\Users\\TimothyH\\Documents\\GitHub\\ts-koapollo\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "client.tsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
 /* 1 */
@@ -38599,7 +38599,7 @@
 					"spec": ">=1.0.23 <2.0.0",
 					"type": "range"
 				},
-				"/Users/Sylvester/Dev/ts-koapollo/node_modules/subscriptions-transport-ws"
+				"C:\\Users\\TimothyH\\Documents\\GitHub\\ts-koapollo\\node_modules\\subscriptions-transport-ws"
 			]
 		],
 		"_from": "websocket@>=1.0.23 <2.0.0",
@@ -38633,7 +38633,7 @@
 		"_shasum": "20de8ec4a7126b09465578cd5dbb29a9c296aac6",
 		"_shrinkwrap": null,
 		"_spec": "websocket@^1.0.23",
-		"_where": "/Users/Sylvester/Dev/ts-koapollo/node_modules/subscriptions-transport-ws",
+		"_where": "C:\\Users\\TimothyH\\Documents\\GitHub\\ts-koapollo\\node_modules\\subscriptions-transport-ws",
 		"author": {
 			"name": "Brian McKelvey",
 			"email": "brian@worlize.com",

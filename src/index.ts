@@ -1,6 +1,24 @@
 import * as winston from 'winston';
-import app from './server';
+import reactServer from './reactServer';
+import graphQLServer from './graphQLServer';
+import subscriptionServer from './subscriptionServer';
+import schema from './schema';
 
-const basePort = process.env.PORT || 3000;
+import config from './config';
 
-app.listen(basePort, () => winston.info(`App Server is now listening on http://localhost:${basePort}`));
+reactServer(
+	config.reactServer.PORT,
+	() => winston.info(`React Server is now listening on http://localhost:${ config.reactServer.PORT }`),
+);
+
+graphQLServer(
+	config.graphQLServer.PORT,
+	() => winston.info(`GraphQL Server is now listening on http://localhost:${ config.graphQLServer.PORT }`),
+	schema,
+);
+
+subscriptionServer(
+	config.subscriptionServer.PORT,
+	() => winston.info(`Subscription Server is now listening on http://localhost:${ config.subscriptionServer.PORT }`),
+	schema,
+);
