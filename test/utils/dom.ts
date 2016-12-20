@@ -13,8 +13,8 @@ const doc = jsdom.jsdom('<!doctype html><html><body></body></html>');
 
 const win = doc.defaultView;
 
-document = doc;
-window = win;
+this.document = doc;
+this.window = win;
 
 propagateToGlobal( win );
 

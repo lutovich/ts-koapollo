@@ -42,4 +42,4 @@ const schema = graphql_tools_1.makeExecutableSchema({
 graphql_tools_1.addMockFunctionsToSchema({ schema });
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = schema;
-//# sourceMappingURL=schema.js.map
+//# sourceMappingURL=mock-schema.js.map

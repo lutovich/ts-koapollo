@@ -22,3 +22,4 @@ const client = create_apollo_client_1.default({
 });
 react_dom_1.render((React.createElement(react_apollo_1.ApolloProvider, { client: client },
     React.createElement(react_router_1.Router, { history: react_router_1.browserHistory }, routes_1.default))), document.getElementById('content'));
+//# sourceMappingURL=client.js.map

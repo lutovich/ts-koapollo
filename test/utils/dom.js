@@ -4,8 +4,8 @@ const chaiImmutable = require("chai-immutable");
 const jsdom = require("jsdom");
 const doc = jsdom.jsdom('<!doctype html><html><body></body></html>');
 const win = doc.defaultView;
-document = doc;
-window = win;
+this.document = doc;
+this.window = win;
 propagateToGlobal(win);
 function propagateToGlobal(window) {
     for (let key in window) {
@@ -17,3 +17,4 @@ function propagateToGlobal(window) {
     }
 }
 chai.use(chaiImmutable);
+//# sourceMappingURL=dom.js.map

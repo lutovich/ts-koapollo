@@ -1,4 +1,4 @@
 --require test/utils/dom.js
 --require chai
 --require sinon
---reporter nyan
+--require winston

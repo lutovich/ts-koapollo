@@ -35,3 +35,4 @@ function subscriptionServer(port, callback, schema) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = subscriptionServer;
+//# sourceMappingURL=subscriptionServer.js.map

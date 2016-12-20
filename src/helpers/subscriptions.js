@@ -11,3 +11,4 @@ const addGraphQLSubscriptions = (networkInterface, wsClient) => Object.assign(ne
 });
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = addGraphQLSubscriptions;
+//# sourceMappingURL=subscriptions.js.map

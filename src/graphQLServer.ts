@@ -4,16 +4,36 @@ import * as koaRouter from 'koa-router';
 import { graphqlKoa, graphiqlKoa } from 'graphql-server-koa';
 import { GraphQLSchema } from 'graphql';
 
-export default async function graphqlServer ( port: number, callback: Function, schema: GraphQLSchema ) {
-	const gql = new koa();
-	const router = new koaRouter();
+export default class GraphQLServer {
+	server: koa;
+	router: koaRouter;
+	constructor ( port: number, callback: Function, schema: GraphQLSchema ) {
+		this.server = new koa();
+		this.router = new koaRouter();
 
-	gql.use(koaBody());
+		this.server.use(koaBody());
 
-	router.post('/graphql', graphqlKoa({ schema }));
-	router.get('/graphiql', graphiqlKoa({ endpointURL: '/graphql'}));
-	gql.use(router.routes());
-	gql.use(router.allowedMethods());
+		// Create GraphQL endpoint route
+		this.router.post(
+			'/graphql',
+			graphqlKoa({
+				schema,
+			}),
+		);
 
-	gql.listen( port, callback() );
+		// Create GraphiQL route
+		this.router.get('/graphiql', graphiqlKoa({
+			endpointURL: '/graphql',
+			query: '{ posts ( first: 2 ) { id } }',
+		}));
+		this.server.use(this.router.routes());
+		this.server.use(this.router.allowedMethods());
+
+		// Start it up!
+		this.server.listen( port, callback() );
+	}
+	end = () => {
+		// Fancy deinstantiation
+		delete this;
+	}
 }

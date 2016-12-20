@@ -9,3 +9,4 @@ exports.default = (options) => new apollo_client_1.default(Object.assign({}, {
         return null;
     },
 }));
+//# sourceMappingURL=create-apollo-client.js.map
