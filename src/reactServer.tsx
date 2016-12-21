@@ -27,16 +27,15 @@ export default class ReactServer {
 		const scriptUrl = `http://localhost:${ basePort }/bundle.js`;
 
 		this.server = new koa();
-		this.server.use( koaStatic( '/public' ) );
+		this.server.use( koaStatic( path.join(process.cwd() + '/public') ) );
 
 		this.server.use( async ( ctx: koa.Context, next: Function ) => {
-			console.log('Called React Router Middleware');
 
 			let client;
 			let props;
 			let toRender;
 
-			match({
+			await match({
 				routes,
 				location: ctx.originalUrl,
 			},
@@ -75,12 +74,12 @@ export default class ReactServer {
 						/>
 					);
 
-					ctx.body = `<!doctype html>\n${ReactDOMServer.renderToStaticMarkup(html)}`;
+					ctx.body = `<!doc type html>\n${ReactDOMServer.renderToStaticMarkup(html)}`;
+					ctx.status = 200;
 				} else {
 					ctx.body = { message: 'Page not found' };
 					ctx.status = 404;
 				}
-				return;
 			});
 		});
 

@@ -9,8 +9,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 const reactServer_1 = require("../src/reactServer");
-const graphQLServer_1 = require("../src/graphQLServer");
-const mock_schema_1 = require("./utils/mock-schema");
 const chai = require("chai");
 const sinon = require("sinon");
 const http = require("http");
@@ -22,7 +20,6 @@ let ReactServerTests = ReactServerTests_1 = class ReactServerTests {
         console.log('    Before the Tests\n      Mount the Server');
         this.serverCallback = sinon.spy();
         this.reactServer = new reactServer_1.default(2000, this.serverCallback, 2010);
-        this.apiServer = new graphQLServer_1.default(2010, mock_schema_1.default);
     }
     'It should return a server object.'() {
         expect(ReactServerTests_1.reactServer).to.be.an.instanceof(reactServer_1.default);
@@ -38,14 +35,12 @@ let ReactServerTests = ReactServerTests_1 = class ReactServerTests {
     }
     'It should serve an index page.'(done) {
         http.get('http://localhost:2000/', (res) => {
-            console.log(JSON.stringify(res.statusMessage, null, 2));
             expect(res.statusCode).to.equal(200);
             done();
         });
     }
     'It should serve the js bundle.'(done) {
         http.get('http://localhost:2000/bundle.js', (res) => {
-            console.log(JSON.stringify(res.statusMessage, null, 2));
             expect(res.statusCode).to.equal(200);
             done();
         });

@@ -23,7 +23,6 @@ import {
 @suite class ReactServerTests {
 	static reactServer: ReactServer;
 	static serverCallback: sinon.SinonSpy;
-	static apiServer: GraphQLServer;
 
 	static before() {
 		console.log('    Before the Tests\n      Mount the Server');
@@ -33,10 +32,6 @@ import {
 			this.serverCallback,
 			2010,
 		);
-		this.apiServer = new GraphQLServer(
-			2010,
-			schema,
-		)
 	}
 	@test 'It should return a server object.'() {
 		expect(ReactServerTests.reactServer).to.be.an.instanceof(ReactServer);
@@ -52,14 +47,12 @@ import {
 	}
 	@test @timeout(1000) 'It should serve an index page.' ( done ) {
 		http.get('http://localhost:2000/', ( res ) => {
-			console.log( JSON.stringify( res.statusMessage, null, 2))
 			expect( res.statusCode ).to.equal( 200 );
 			done();
 		});
 	}
 	@test @timeout(1000) 'It should serve the js bundle.' ( done ) {
 		http.get('http://localhost:2000/bundle.js', ( res ) => {
-			console.log( JSON.stringify( res.statusMessage, null, 2))
 			expect( res.statusCode ).to.equal( 200 );
 			done();
 		});

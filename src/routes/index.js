@@ -1,7 +1,9 @@
 "use strict";
-const React = require("react");
-const react_router_1 = require("react-router");
 const Layout_1 = require("./Layout");
+const routes = {
+    path: '/',
+    component: Layout_1.default,
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (React.createElement(react_router_1.Route, { path: '/', component: Layout_1.default }));
+exports.default = routes;
 //# sourceMappingURL=index.js.map

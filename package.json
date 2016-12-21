@@ -19,6 +19,7 @@
     "isomorphic-fetch": "^2.2.1",
     "json-loader": "^0.5.4",
     "koa": "^2.0.0-alpha.7",
+    "koa-better-static": "^1.0.5",
     "koa-bodyparser": "^3.2.0",
     "koa-cors": "0.0.16",
     "koa-proxy": "^0.6.0",

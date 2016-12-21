@@ -3,9 +3,9 @@ import { Route, IndexRoute } from 'react-router';
 
 import Layout from './Layout';
 
-export default (
-	<Route
-		path='/'
-		component={ Layout }
-	/>
-);
+const routes = {
+	path: '/',
+	component: Layout,
+}
+
+export default routes;

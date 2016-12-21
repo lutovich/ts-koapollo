@@ -22,6 +22,7 @@ const ReactDOMServer = require("react-dom/server");
 const apollo_client_1 = require("apollo-client");
 const react_apollo_1 = require("react-apollo");
 const react_router_1 = require("react-router");
+const path = require("path");
 const routes_1 = require("./routes");
 const Html_1 = require("./routes/Html");
 const create_apollo_client_1 = require("./helpers/create-apollo-client");
@@ -34,13 +35,12 @@ class ReactServer {
         const apiUrl = `${apiHost}/graphql`;
         const scriptUrl = `http://localhost:${basePort}/bundle.js`;
         this.server = new koa();
-        this.server.use(koaStatic('/public'));
+        this.server.use(koaStatic(path.join(process.cwd() + '/public')));
         this.server.use((ctx, next) => __awaiter(this, void 0, void 0, function* () {
-            console.log('Called React Router Middleware');
             let client;
             let props;
             let toRender;
-            react_router_1.match({
+            yield react_router_1.match({
                 routes: routes_1.default,
                 location: ctx.originalUrl,
             }, (error, redirectLocation, renderProps) => __awaiter(this, void 0, void 0, function* () {
@@ -68,13 +68,13 @@ class ReactServer {
                         React.createElement(react_router_1.RouterContext, __assign({}, props))));
                     let content = yield react_apollo_1.renderToStringWithData(component);
                     const html = (React.createElement(Html_1.default, { children: content, scriptUrl: scriptUrl }));
-                    ctx.body = `<!doctype html>\n${ReactDOMServer.renderToStaticMarkup(html)}`;
+                    ctx.body = `<!doc type html>\n${ReactDOMServer.renderToStaticMarkup(html)}`;
+                    ctx.status = 200;
                 }
                 else {
                     ctx.body = { message: 'Page not found' };
                     ctx.status = 404;
                 }
-                return;
             }));
         }));
         this.server.listen(port, callback());
