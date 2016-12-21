@@ -7,5 +7,5 @@ const schema_1 = require("./schema");
 const config_1 = require("./config");
 const reactServer = new reactServer_1.default(config_1.default.reactServer.PORT, () => winston.info(`React Server is now listening on http://localhost:${config_1.default.reactServer.PORT}`), config_1.default.graphQLServer.PORT);
 const graphQLServer = new graphQLServer_1.default(config_1.default.graphQLServer.PORT, schema_1.default, () => winston.info(`GraphQL Server is now listening on http://localhost:${config_1.default.graphQLServer.PORT}`));
-subscriptionServer_1.default(config_1.default.subscriptionServer.PORT, () => winston.info(`Subscription Server is now listening on http://localhost:${config_1.default.subscriptionServer.PORT}`), schema_1.default);
+const subscriptionServer = new subscriptionServer_1.default(config_1.default.subscriptionServer.PORT, schema_1.default, () => winston.info(`Subscription Server is now listening on http://localhost:${config_1.default.subscriptionServer.PORT}`));
 //# sourceMappingURL=index.js.map

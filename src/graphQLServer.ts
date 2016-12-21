@@ -4,9 +4,19 @@ import * as koaRouter from 'koa-router';
 import { graphqlKoa, graphiqlKoa } from 'graphql-server-koa';
 import { GraphQLSchema } from 'graphql';
 
+/** Class representing a GraphQLServer */
 export default class GraphQLServer {
+	/** @property {koa} server Object property where the koa Server is stored. */
 	server: koa;
+	/** @property {koaRouter} router Object property where the koa router is stored. */
 	router: koaRouter;
+
+	/**
+	 * Create a GraphQL API Server
+	 * @param  {number}        port       Port for server to listen on.
+	 * @param  {GraphQLSchema} schema     Schema to query.
+	 * @param  {Function}      [callback] Callback called on .listen()
+	 */
 	constructor ( port: number, schema: GraphQLSchema, callback?: Function ) {
 		this.server = new koa();
 		this.router = new koaRouter();

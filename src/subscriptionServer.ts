@@ -5,30 +5,39 @@ import { GraphQLSchema } from 'graphql';
 
 import config from './config';
 
-export default async function subscriptionServer ( port: number, callback: Function, schema: GraphQLSchema ) {
-	const pubsub = new PubSub();
-	const subscriptionManager = new SubscriptionManager({
-		schema,
-		pubsub,
-		setupFunctions: {
-			placeholder: ( options, args ) => { return null },
-		},
-	})
+/** Class representing a Subscription Server */
+export default class SubServer {
+	/**
+	 * Create a Subscription Server
+	 * @param  {number}        port     Port on which the server will listen
+	 * @param  {GraphQLSchema} schema   GraphQL Schema to query
+	 * @param  {Function}      [callback] Runs on .listen()
+	 */
+	constructor ( port: number, schema: GraphQLSchema, callback?: Function ) {
+		const pubsub = new PubSub();
+		const subscriptionManager = new SubscriptionManager({
+			schema,
+			pubsub,
+			setupFunctions: {
+				placeholder: ( options, args ) => { return null },
+			},
+		})
 
-	const websocketServer = createServer(
-		( request, response ) => {
-			response.writeHead( 404 );
-			response.end();
-		},
-	);
+		const websocketServer = createServer(
+			( request, response ) => {
+				response.writeHead( 404 );
+				response.end();
+			},
+		);
 
-	websocketServer.listen ( port, callback() );
+		websocketServer.listen ( port, callback() );
 
-	const subscriptionServer = new SubscriptionServer({
-		subscriptionManager,
-		onSubscribe: ( msg, params ) => {
-			return null;
+		const subscriptionServer = new SubscriptionServer({
+			subscriptionManager,
+			onSubscribe: ( msg, params ) => {
+				return null;
+			},
 		},
-	},
-websocketServer);
+	websocketServer);
+	}
 }

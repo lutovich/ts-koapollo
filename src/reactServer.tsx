@@ -15,9 +15,17 @@ import createApolloClient from './helpers/create-apollo-client';
 
 import config from './config';
 
+/** Class representing a React Isomorphic Page Server */
 export default class ReactServer {
+	/** @property {koa} server Object property where the koa Server is stored. */
 	server: koa;
 
+	/**
+	 * Create a React Server
+	 * @param  {number}    port       Port number for server
+	 * @param  {Function}  [callback] Runs on listen()
+	 * @param  {number}    [apiPort]  Port number of API server. Defaults to value set in config.
+	 */
 	constructor ( port: number, callback?: Function, apiPort?: number ) {
 
 		const basePort = port;

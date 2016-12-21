@@ -1,7 +1,7 @@
 import * as winston from 'winston';
 import ReactServer from './reactServer';
 import GraphQLServer from './graphQLServer';
-import subscriptionServer from './subscriptionServer';
+import SubServer from './subscriptionServer';
 import schema from './schema';
 
 import config from './config';
@@ -18,8 +18,8 @@ const graphQLServer = new GraphQLServer (
 	() => winston.info(`GraphQL Server is now listening on http://localhost:${ config.graphQLServer.PORT }`),
 );
 
-subscriptionServer(
+const subscriptionServer = new SubServer (
 	config.subscriptionServer.PORT,
-	() => winston.info(`Subscription Server is now listening on http://localhost:${ config.subscriptionServer.PORT }`),
 	schema,
+	() => winston.info(`Subscription Server is now listening on http://localhost:${ config.subscriptionServer.PORT }`),
 );
