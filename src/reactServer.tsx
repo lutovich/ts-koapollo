@@ -1,5 +1,5 @@
 import * as koa from 'koa';
-import * as koaStatic from 'koa-static';
+import * as koaStatic from 'koa-better-static';
 import * as koaBody from 'koa-bodyparser';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
@@ -27,9 +27,10 @@ export default class ReactServer {
 		const scriptUrl = `http://localhost:${ basePort }/bundle.js`;
 
 		this.server = new koa();
-		this.server.use( koaStatic( path.resolve( process.cwd(), 'public' ) ) );
+		this.server.use( koaStatic( '/public' ) );
 
 		this.server.use( async ( ctx: koa.Context, next: Function ) => {
+			console.log('Called React Router Middleware');
 
 			let client;
 			let props;
@@ -44,6 +45,8 @@ export default class ReactServer {
 					console.log( error );
 					ctx.body = { message: error.message };
 					ctx.status = 500;
+				} else if ( redirectLocation ) {
+					ctx.redirect( redirectLocation.pathname + redirectLocation.search );
 				} else if ( renderProps ) {
 					props = renderProps;
 					client = createApolloClient({
@@ -72,10 +75,12 @@ export default class ReactServer {
 						/>
 					);
 
-					ctx.body = `<!doctype html>\n${await ReactDOMServer.renderToStaticMarkup(html)}`;
+					ctx.body = `<!doctype html>\n${ReactDOMServer.renderToStaticMarkup(html)}`;
 				} else {
-					return;
+					ctx.body = { message: 'Page not found' };
+					ctx.status = 404;
 				}
+				return;
 			});
 		});
 
