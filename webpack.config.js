@@ -1,24 +1,43 @@
+var webpack = require('webpack');
+
 module.exports =  {
-	entry: './src/client.tsx',
+	entry: {
+		main: './src/client.tsx'
+},
 	output: {
 		filename: 'bundle.js',
 		path: __dirname + '/public'
 	},
 	devtool: 'source-map',
 	resolve: {
-		extenstions: ['','.webpack.js','.web.js','.ts','.tsx','.js']
+		extensions: ['.webpack.js','.web.js','.ts','.tsx','.js']
 	},
 	module: {
-		loaders: [
-			{ test: /\.tsx?$/, loaders: ['react-hot','awesome-typescript-loader'] },
-			{ test: /\.sass$/, loaders: ['style','css','sass'] },
-			{ test: /\.json$/, loaders: ['json'] },
-		],
-		preLoaders: [
-			{ test: /\.js/, loader: 'source-map-loader' }
+		rules: [
+			{ test: /\.tsx?$/,
+				loader: 'tslint-loader',
+				enforce: 'pre',
+				exclude: [ /node_modules/ ] },
+			{ test: /\.js/,
+				loader: 'source-map-loader',
+				enforce: 'pre',
+				exclude: [ /node_modules/ ] },
+			{ test: /\.tsx?$/,
+				loaders: ['react-hot-loader','awesome-typescript-loader'],
+				exclude: [ /node_modules/ ] },
+			{ test: /\.sass$/,
+				loaders: ['style-loader','css-loader','sass-loader'] },
+			{ test: /\.json$/,
+				loaders: ['json-loader'] },
 		]
 	},
 	externals: {
 		'winston': 'require("winston")'
-	}
+	},
+	plugins: [
+		// new webpack.optimize.CommonsChunkPlugin({ names: ['vendor', 'manifest'] }),
+		// new webpack.optimize.UglifyJsPlugin(),
+		// new webpack.optimize.OccurrenceOrderPlugin(),
+		// new webpack.optimize.DedupePlugin(),
+	]
 };

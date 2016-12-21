@@ -12,12 +12,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
+        step((generator = generator.apply(thisArg, _arguments)).next());
     });
 };
 const koa = require("koa");
 const koaStatic = require("koa-static");
-const proxy = require("koa-proxy");
 const React = require("react");
 const ReactDOMServer = require("react-dom/server");
 const apollo_client_1 = require("apollo-client");
@@ -29,17 +28,14 @@ const Html_1 = require("./routes/Html");
 const create_apollo_client_1 = require("./helpers/create-apollo-client");
 const config_1 = require("./config");
 class ReactServer {
-    constructor(port, callback) {
+    constructor(port, callback, apiPort) {
         const basePort = port;
-        const apiHost = `http://localhost:${config_1.default.graphQLServer.PORT}`;
+        apiPort = apiPort || config_1.default.graphQLServer.PORT;
+        const apiHost = `http://localhost:${apiPort}`;
         const apiUrl = `${apiHost}/graphql`;
         const scriptUrl = `http://localhost:${basePort}/bundle.js`;
         this.server = new koa();
-        this.server.use(koaStatic(path.join(process.cwd(), 'public')));
-        this.server.use(proxy({
-            host: apiUrl,
-            match: /^\/(graphi?ql|log(in|out))\//,
-        }));
+        this.server.use(koaStatic(path.resolve(process.cwd(), 'public')));
         this.server.use((ctx, next) => __awaiter(this, void 0, void 0, function* () {
             let client;
             let props;
@@ -49,10 +45,9 @@ class ReactServer {
                 location: ctx.originalUrl,
             }, (error, redirectLocation, renderProps) => __awaiter(this, void 0, void 0, function* () {
                 if (error) {
-                    ctx.throw(error.message, 500);
-                }
-                else if (redirectLocation) {
-                    ctx.redirect(redirectLocation.pathname + redirectLocation.search);
+                    console.log(error);
+                    ctx.body = { message: error.message };
+                    ctx.status = 500;
                 }
                 else if (renderProps) {
                     props = renderProps;
@@ -70,10 +65,10 @@ class ReactServer {
                         React.createElement(react_router_1.RouterContext, __assign({}, props))));
                     let content = yield react_apollo_1.renderToStringWithData(component);
                     const html = (React.createElement(Html_1.default, { children: content, scriptUrl: scriptUrl }));
-                    ctx.body = `<!doctype html>\n${ReactDOMServer.renderToStaticMarkup(html)}`;
+                    ctx.body = `<!doctype html>\n${yield ReactDOMServer.renderToStaticMarkup(html)}`;
                 }
                 else {
-                    ctx.throw('Not Found', 404);
+                    return;
                 }
             }));
         }));

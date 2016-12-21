@@ -28,8 +28,8 @@ import {
 		this.serverCallback = sinon.spy();
 		this.graphQLServer = new GraphQLServer(
 			3000,
-			this.serverCallback,
 			schema,
+			this.serverCallback,
 		);
 	}
 	@test 'It should return a server object.'() {

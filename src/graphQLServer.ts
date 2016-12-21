@@ -7,7 +7,7 @@ import { GraphQLSchema } from 'graphql';
 export default class GraphQLServer {
 	server: koa;
 	router: koaRouter;
-	constructor ( port: number, callback: Function, schema: GraphQLSchema ) {
+	constructor ( port: number, schema: GraphQLSchema, callback?: Function ) {
 		this.server = new koa();
 		this.router = new koaRouter();
 
@@ -29,6 +29,6 @@ export default class GraphQLServer {
 		this.server.use(this.router.allowedMethods());
 
 		// Start it up!
-		this.server.listen( port, callback() );
+		this.server.listen( port, callback ? callback() : null );
 	}
 }

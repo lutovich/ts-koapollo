@@ -4,7 +4,7 @@ const koaBody = require("koa-bodyparser");
 const koaRouter = require("koa-router");
 const graphql_server_koa_1 = require("graphql-server-koa");
 class GraphQLServer {
-    constructor(port, callback, schema) {
+    constructor(port, schema, callback) {
         this.server = new koa();
         this.router = new koaRouter();
         this.server.use(koaBody());
@@ -16,7 +16,7 @@ class GraphQLServer {
         }));
         this.server.use(this.router.routes());
         this.server.use(this.router.allowedMethods());
-        this.server.listen(port, callback());
+        this.server.listen(port, callback ? callback() : null);
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });

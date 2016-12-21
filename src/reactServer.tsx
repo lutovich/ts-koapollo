@@ -1,6 +1,6 @@
 import * as koa from 'koa';
 import * as koaStatic from 'koa-static';
-import * as proxy from 'koa-proxy';
+import * as koaBody from 'koa-bodyparser';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import * as winston from 'winston';
@@ -17,23 +17,20 @@ import config from './config';
 
 export default class ReactServer {
 	server: koa;
-	constructor ( port: number, callback: Function ) {
+
+	constructor ( port: number, callback?: Function, apiPort?: number ) {
 
 		const basePort = port;
-		const apiHost = `http://localhost:${ config.graphQLServer.PORT }`;
+		apiPort = apiPort || config.graphQLServer.PORT;
+		const apiHost = `http://localhost:${ apiPort }`;
 		const apiUrl = `${ apiHost }/graphql`;
 		const scriptUrl = `http://localhost:${ basePort }/bundle.js`;
 
 		this.server = new koa();
-		this.server.use(koaStatic(path.join(process.cwd(), 'public')));
-		this.server.use(
-			proxy({
-				host: apiUrl,
-				match: /^\/(graphi?ql|log(in|out))\//, // Not exactly a regex mastermind but I'm quite proud of this
-			}),
-		);
+		this.server.use( koaStatic( path.resolve( process.cwd(), 'public' ) ) );
 
-		this.server.use(async ( ctx: koa.Context, next: Function ) => {
+		this.server.use( async ( ctx: koa.Context, next: Function ) => {
+
 			let client;
 			let props;
 			let toRender;
@@ -44,9 +41,9 @@ export default class ReactServer {
 			},
 			async ( error, redirectLocation, renderProps ) => {
 				if ( error ) {
-					ctx.throw( error.message, 500 );
-				} else if ( redirectLocation ) {
-					ctx.redirect( redirectLocation.pathname + redirectLocation.search );
+					console.log( error );
+					ctx.body = { message: error.message };
+					ctx.status = 500;
 				} else if ( renderProps ) {
 					props = renderProps;
 					client = createApolloClient({
@@ -75,9 +72,9 @@ export default class ReactServer {
 						/>
 					);
 
-					ctx.body = `<!doctype html>\n${ReactDOMServer.renderToStaticMarkup(html)}`;
+					ctx.body = `<!doctype html>\n${await ReactDOMServer.renderToStaticMarkup(html)}`;
 				} else {
-					ctx.throw('Not Found', 404);
+					return;
 				}
 			});
 		});

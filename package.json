@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build-client": "webpack",
+    "start": "ts-node src",
     "test": "mocha"
   },
   "author": "Tim Hope",
@@ -71,7 +73,10 @@
     "ts-babel-node": "^1.1.1",
     "ts-node": "^1.7.2",
     "tslint": "^4.1.1",
+    "tslint-loader": "^3.3.0",
     "tslint-react": "^2.2.0",
-    "typescript": "^2.1.4"
+    "typescript": "^2.1.4",
+    "webpack": "^2.2.0-rc.1",
+    "webpack-bundle-size-analyzer": "^2.2.0"
   }
 }

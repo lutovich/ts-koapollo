@@ -1,4 +1,6 @@
 import ReactServer from '../src/reactServer';
+import GraphQLServer from '../src/graphQLServer';
+import schema from './utils/mock-schema';
 
 import * as koa from 'koa';
 import * as chai from 'chai';
@@ -19,19 +21,25 @@ import {
 } from 'mocha-typescript';
 
 @suite class ReactServerTests {
-	static ReactServer: ReactServer;
+	static reactServer: ReactServer;
 	static serverCallback: sinon.SinonSpy;
+	static apiServer: GraphQLServer;
 
 	static before() {
 		console.log('    Before the Tests\n      Mount the Server');
 		this.serverCallback = sinon.spy();
-		this.ReactServer = new ReactServer(
+		this.reactServer = new ReactServer(
 			2000,
 			this.serverCallback,
+			2010,
 		);
+		this.apiServer = new GraphQLServer(
+			2010,
+			schema,
+		)
 	}
 	@test 'It should return a server object.'() {
-		expect(ReactServerTests.ReactServer).to.be.an.instanceof(ReactServer);
+		expect(ReactServerTests.reactServer).to.be.an.instanceof(ReactServer);
 	}
 	@test 'It should call the server callback.'() {
 		ReactServerTests.serverCallback.should.have.been.called;
@@ -39,6 +47,20 @@ import {
 	@test @timeout(1000) 'It should be listening on the designated port.' ( done ) {
 		http.get('http://localhost:2000', ( res ) => {
 			expect( res ).to.exist;
+			done();
+		});
+	}
+	@test @timeout(1000) 'It should serve an index page.' ( done ) {
+		http.get('http://localhost:2000/', ( res ) => {
+			console.log( JSON.stringify( res.statusMessage, null, 2))
+			expect( res.statusCode ).to.equal( 200 );
+			done();
+		});
+	}
+	@test @timeout(1000) 'It should serve the js bundle.' ( done ) {
+		http.get('http://localhost:2000/bundle.js', ( res ) => {
+			console.log( JSON.stringify( res.statusMessage, null, 2))
+			expect( res.statusCode ).to.equal( 200 );
 			done();
 		});
 	}

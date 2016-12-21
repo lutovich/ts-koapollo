@@ -21,7 +21,7 @@ let GraphQLServerTests = GraphQLServerTests_1 = class GraphQLServerTests {
     static before() {
         console.log('    Before the Tests\n      Mount the Server');
         this.serverCallback = sinon.spy();
-        this.graphQLServer = new graphQLServer_1.default(3000, this.serverCallback, mock_schema_1.default);
+        this.graphQLServer = new graphQLServer_1.default(3000, mock_schema_1.default, this.serverCallback);
     }
     'It should return a server object.'() {
         expect(GraphQLServerTests_1.graphQLServer).to.be.an.instanceof(graphQLServer_1.default);
@@ -119,7 +119,8 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], GraphQLServerTests.prototype, "Serves GraphiQL.", null);
 GraphQLServerTests = GraphQLServerTests_1 = __decorate([
-    mocha_typescript_1.suite
+    mocha_typescript_1.suite,
+    __metadata("design:paramtypes", [])
 ], GraphQLServerTests);
 var GraphQLServerTests_1;
 //# sourceMappingURL=graphQLServer.spec.js.map
