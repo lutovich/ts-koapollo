@@ -19,11 +19,9 @@ const path = require("path");
 const routes_1 = require("./routes");
 const Html_1 = require("./routes/Html");
 const create_apollo_client_1 = require("./helpers/create-apollo-client");
-const config_1 = require("./config");
 class ReactServer {
     constructor(port, callback, apiPort) {
         const basePort = port;
-        apiPort = apiPort || config_1.default.graphQLServer.PORT;
         const apiHost = `http://localhost:${apiPort}`;
         const apiUrl = `${apiHost}/graphql`;
         const scriptUrl = `http://localhost:${basePort}/bundle.js`;

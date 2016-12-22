@@ -57,4 +57,10 @@ import {
 			done();
 		});
 	}
+	@test @timeout(1000) 'It should throw a 404 on a non existent page.' ( done ) {
+		http.get('http://localhost:2000/idontexist', ( res ) => {
+			expect( res.statusCode ).to.equal( 404 );
+			done();
+		});
+	}
 }

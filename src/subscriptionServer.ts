@@ -14,14 +14,13 @@ export default class SubServer {
 	 * @param  {Object}        setupFunctions  An object containing functionality of subscription server
 	 * @param  {Function}      [callback]      Runs on .listen()
 	 */
-	constructor ( port: number, schema: GraphQLSchema, setupFunctions: { [x: string]: Function }, callback?: Function ) {
+	// TODO: Get a proper type definition for SetupFunctions here. Currently defined privately.
+	constructor ( port: number, schema: GraphQLSchema, setupFunctions: any, callback?: Function ) {
 		const pubsub = new PubSub();
 		const subscriptionManager = new SubscriptionManager({
 			schema,
 			pubsub,
-			setupFunctions: {
-				placeholder: ( options, args ) => { return null },
-			},
+			setupFunctions,
 		})
 
 		const websocketServer = createServer(

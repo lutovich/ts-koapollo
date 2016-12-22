@@ -30,7 +30,6 @@ export default class ReactServer {
 	constructor ( port: number, callback?: Function, apiPort?: number ) {
 
 		const basePort = port;
-		apiPort = apiPort || config.graphQLServer.PORT;
 		const apiHost = `http://localhost:${ apiPort }`;
 		const apiUrl = `${ apiHost }/graphql`;
 		const scriptUrl = `http://localhost:${ basePort }/bundle.js`;

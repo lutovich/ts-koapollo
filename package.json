@@ -6,7 +6,29 @@
   "scripts": {
     "build-client": "webpack",
     "start": "ts-node src",
-    "test": "mocha --harmony"
+    "test": "nyc --cover --require ts-node/register node --harmony-async-await ./node_modules/.bin/_mocha --harmony"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.js"
+    ],
+    "exclude": [
+      "node_modules/",
+      "test/"
+    ],
+    "extension": [
+      ".js"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text-summary",
+      "lcov"
+    ],
+    "sourceMap": true,
+    "instrument": true,
+    "all": false
   },
   "author": "Tim Hope",
   "license": "ISC",

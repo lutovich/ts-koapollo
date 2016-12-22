@@ -8,9 +8,7 @@ class SubServer {
         const subscriptionManager = new graphql_subscriptions_1.SubscriptionManager({
             schema,
             pubsub,
-            setupFunctions: {
-                placeholder: (options, args) => { return null; },
-            },
+            setupFunctions,
         });
         const websocketServer = http_1.createServer((request, response) => {
             response.writeHead(404);

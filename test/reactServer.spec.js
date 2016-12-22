@@ -45,6 +45,12 @@ let ReactServerTests = ReactServerTests_1 = class ReactServerTests {
             done();
         });
     }
+    'It should throw a 404 on a non existent page.'(done) {
+        http.get('http://localhost:2000/idontexist', (res) => {
+            expect(res.statusCode).to.equal(404);
+            done();
+        });
+    }
 };
 __decorate([
     mocha_typescript_1.test,
@@ -76,8 +82,15 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ReactServerTests.prototype, "It should serve the js bundle.", null);
+__decorate([
+    mocha_typescript_1.test, mocha_typescript_1.timeout(1000),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], ReactServerTests.prototype, "It should throw a 404 on a non existent page.", null);
 ReactServerTests = ReactServerTests_1 = __decorate([
-    mocha_typescript_1.suite
+    mocha_typescript_1.suite,
+    __metadata("design:paramtypes", [])
 ], ReactServerTests);
 var ReactServerTests_1;
 //# sourceMappingURL=reactServer.spec.js.map
