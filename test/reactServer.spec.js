@@ -77,8 +77,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ReactServerTests.prototype, "It should serve the js bundle.", null);
 ReactServerTests = ReactServerTests_1 = __decorate([
-    mocha_typescript_1.suite,
-    __metadata("design:paramtypes", [])
+    mocha_typescript_1.suite
 ], ReactServerTests);
 var ReactServerTests_1;
 //# sourceMappingURL=reactServer.spec.js.map

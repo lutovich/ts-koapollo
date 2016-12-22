@@ -9,11 +9,12 @@ import config from './config';
 export default class SubServer {
 	/**
 	 * Create a Subscription Server
-	 * @param  {number}        port     Port on which the server will listen
-	 * @param  {GraphQLSchema} schema   GraphQL Schema to query
-	 * @param  {Function}      [callback] Runs on .listen()
+	 * @param  {number}        port            Port on which the server will listen
+	 * @param  {GraphQLSchema} schema          GraphQL Schema to query
+	 * @param  {Object}        setupFunctions  An object containing functionality of subscription server
+	 * @param  {Function}      [callback]      Runs on .listen()
 	 */
-	constructor ( port: number, schema: GraphQLSchema, callback?: Function ) {
+	constructor ( port: number, schema: GraphQLSchema, setupFunctions: { [x: string]: Function }, callback?: Function ) {
 		const pubsub = new PubSub();
 		const subscriptionManager = new SubscriptionManager({
 			schema,

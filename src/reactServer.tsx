@@ -1,6 +1,7 @@
 import * as koa from 'koa';
 import * as koaStatic from 'koa-better-static';
 import * as koaBody from 'koa-bodyparser';
+import * as convert from 'koa-convert';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import * as winston from 'winston';
@@ -35,7 +36,7 @@ export default class ReactServer {
 		const scriptUrl = `http://localhost:${ basePort }/bundle.js`;
 
 		this.server = new koa();
-		this.server.use( koaStatic( path.join(process.cwd() + '/public') ) );
+		this.server.use( convert( koaStatic( path.join(process.cwd() + '/public') ) ) );
 
 		this.server.use( async ( ctx: koa.Context, next: Function ) => {
 

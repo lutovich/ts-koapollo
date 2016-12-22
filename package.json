@@ -6,7 +6,7 @@
   "scripts": {
     "build-client": "webpack",
     "start": "ts-node src",
-    "test": "mocha"
+    "test": "mocha --harmony"
   },
   "author": "Tim Hope",
   "license": "ISC",

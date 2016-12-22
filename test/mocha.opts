@@ -1,5 +1,4 @@
---require test/utils/dom.js
---compilers ts:ts-node/register,tsx:ts-node/register
+--require ts-node/register
+--require test/utils/dom.ts
 --full-trace
---bail
 test/**/*.spec.ts test/**/*.spec.tsx

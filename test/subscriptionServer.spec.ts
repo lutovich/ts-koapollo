@@ -22,21 +22,23 @@ import {
 
 @suite class SubscriptionServerTests {
 	static subServer: SubServer;
+	static serverCallback: sinon.SinonSpy;
 
 	static before() {
 		console.log('    Before the Tests\n      Mount the Server');
 		this.serverCallback = sinon.spy();
-		this.graphQLServer = new SubServer(
+		this.subServer = new SubServer(
 			8080,
 			schema,
+			{ mockCall: () => { return true } },
 			this.serverCallback,
 		);
 	}
 	@test 'It should return a server object.'() {
-		expect(GraphQLServerTests.graphQLServer).to.be.an.instanceof(SubServer);
+		expect(SubscriptionServerTests.subServer).to.be.an.instanceof(SubServer);
 	}
 	@test 'It should call the server callback.'() {
-		GraphQLServerTests.serverCallback.should.have.been.called;
+		SubscriptionServerTests.serverCallback.should.have.been.called;
 	}
 	// TODO: Finish Testing Subscriptions using Client from subscriptions-transport-ws
 }

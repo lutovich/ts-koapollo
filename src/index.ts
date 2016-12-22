@@ -21,5 +21,6 @@ const graphQLServer = new GraphQLServer (
 const subscriptionServer = new SubServer (
 	config.subscriptionServer.PORT,
 	schema,
+	{ placeholder: () => { return null; } },
 	() => winston.info(`Subscription Server is now listening on http://localhost:${ config.subscriptionServer.PORT }`),
 );

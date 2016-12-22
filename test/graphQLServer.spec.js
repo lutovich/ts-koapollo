@@ -119,8 +119,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], GraphQLServerTests.prototype, "Serves GraphiQL.", null);
 GraphQLServerTests = GraphQLServerTests_1 = __decorate([
-    mocha_typescript_1.suite,
-    __metadata("design:paramtypes", [])
+    mocha_typescript_1.suite
 ], GraphQLServerTests);
 var GraphQLServerTests_1;
 //# sourceMappingURL=graphQLServer.spec.js.map

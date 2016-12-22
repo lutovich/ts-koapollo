@@ -7,16 +7,9 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     }
     return t;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments)).next());
-    });
-};
 const koa = require("koa");
 const koaStatic = require("koa-better-static");
+const convert = require("koa-convert");
 const React = require("react");
 const ReactDOMServer = require("react-dom/server");
 const apollo_client_1 = require("apollo-client");
@@ -35,15 +28,15 @@ class ReactServer {
         const apiUrl = `${apiHost}/graphql`;
         const scriptUrl = `http://localhost:${basePort}/bundle.js`;
         this.server = new koa();
-        this.server.use(koaStatic(path.join(process.cwd() + '/public')));
-        this.server.use((ctx, next) => __awaiter(this, void 0, void 0, function* () {
+        this.server.use(convert(koaStatic(path.join(process.cwd() + '/public'))));
+        this.server.use(async (ctx, next) => {
             let client;
             let props;
             let toRender;
-            yield react_router_1.match({
+            await react_router_1.match({
                 routes: routes_1.default,
                 location: ctx.originalUrl,
-            }, (error, redirectLocation, renderProps) => __awaiter(this, void 0, void 0, function* () {
+            }, async (error, redirectLocation, renderProps) => {
                 if (error) {
                     console.log(error);
                     ctx.body = { message: error.message };
@@ -66,7 +59,7 @@ class ReactServer {
                     });
                     const component = (React.createElement(react_apollo_1.ApolloProvider, { client: client },
                         React.createElement(react_router_1.RouterContext, __assign({}, props))));
-                    let content = yield react_apollo_1.renderToStringWithData(component);
+                    let content = await react_apollo_1.renderToStringWithData(component);
                     const html = (React.createElement(Html_1.default, { children: content, scriptUrl: scriptUrl }));
                     ctx.body = `<!doc type html>\n${ReactDOMServer.renderToStaticMarkup(html)}`;
                     ctx.status = 200;
@@ -75,8 +68,8 @@ class ReactServer {
                     ctx.body = { message: 'Page not found' };
                     ctx.status = 404;
                 }
-            }));
-        }));
+            });
+        });
         this.server.listen(port, callback());
     }
 }

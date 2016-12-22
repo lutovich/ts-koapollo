@@ -3,7 +3,7 @@ const graphql_subscriptions_1 = require("graphql-subscriptions");
 const subscriptions_transport_ws_1 = require("subscriptions-transport-ws");
 const http_1 = require("http");
 class SubServer {
-    constructor(port, schema, callback) {
+    constructor(port, schema, setupFunctions, callback) {
         const pubsub = new graphql_subscriptions_1.PubSub();
         const subscriptionManager = new graphql_subscriptions_1.SubscriptionManager({
             schema,
