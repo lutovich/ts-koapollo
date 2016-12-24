@@ -1,55 +1,93 @@
 import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools';
-import { graphql } from 'graphql';
+import { PubSub, SubscriptionManager } from 'graphql-subscriptions';
+
+import { SubscriptionOptions } from 'graphql-subscriptions/dist/pubsub';
+import { SubscribeMessage } from 'subscriptions-transport-ws/dist/server';
+
+import {
+	graphql,
+	GraphQLObjectType,
+	GraphQLSchema,
+	GraphQLString,
+} from 'graphql';
+
 import winston from 'winston';
 
-const schemaString =
-	`type Author {
-	  id: Int! # the ! means that every author object _must_ have an id
-	  firstName: String
-	  lastName: String
-	  posts: [Post] # the list of Posts by this author
-	}
+// TODO: Add subscriptions function call in mutation calls
 
-	type Post {
-	  id: Int!
-	  title: String
-	  author: Author
-	  votes: Int
-	}
+const data = {
+	'1': {
+		'id': '1',
+		'title': 'one',
+	},
+	'2': {
+		'id': '2',
+		'title': 'two',
+	},
+	'3': {
+		'id': '3',
+		'title': 'three',
+	},
+};
 
-	# the schema allows the following query:
-	type Query {
-	  posts: [Post]
-	}
-
-	# this schema allows the following mutation:
-	type Mutation {
-	  upvotePost (
-	    postId: Int!
-	  ): Post
-	}
-
-	# we need to tell the server which types represent the root query
-	# and root mutation types. We call them RootQuery and RootMutation by convention.
-	schema {
-	  query: Query
-	  mutation: Mutation
-	}`
-
-const schema = makeExecutableSchema({
-	typeDefs: schemaString,
-	logger:
-		{
-			log: (e) => winston.error('Schema Error:', e),
-		},
-});
-
-addMockFunctionsToSchema({
-	schema,
-	mocks: {
-		Int: () => 6,
-		String: () => 'String',
+const postType = new GraphQLObjectType({
+	name: 'Post',
+	fields: {
+		id: { type: GraphQLString },
+		title: { type: GraphQLString },
 	},
 });
 
-export default schema;
+const schema = new GraphQLSchema({
+	query: new GraphQLObjectType({
+		name: 'Query',
+		fields: {
+			posts: {
+				type: postType,
+				args: {
+					id: { type: GraphQLString },
+				},
+				resolve: (_, {id}) => {
+					return data[id];
+				},
+			},
+		},
+	}),
+	subscription: new GraphQLObjectType({
+		name: 'Subscription',
+		fields: {
+			post: {
+				type: postType,
+				args: {
+					id: { type: GraphQLString },
+				},
+				resolve: (_, {id}) => {
+					return data[id];
+				},
+			},
+			postFiltered: {
+				type: postType,
+				args: {
+					id: { type: GraphQLString },
+				},
+				resolve: (_, {id}) => {
+					return data[id];
+				},
+			},
+		},
+	}),
+});
+
+const subscriptionManager = new SubscriptionManager({
+	schema,
+	pubsub: new PubSub(),
+	setupFunctions: {
+		postFiltered: ( options: SubscriptionOptions, args: { [key: string]: any } ) => ({
+			postFiltered: {
+				filter: ( post: any ) => { return !args['id'] || post.id === args['id'] },
+			},
+		}),
+	},
+});
+
+export { schema, subscriptionManager };

@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for src/graphQLServer.ts</title>
+    <title>Code coverage report for graphQLServer.ts</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../prettify.css" />
-    <link rel="stylesheet" href="../base.css" />
+    <link rel="stylesheet" href="prettify.css" />
+    <link rel="stylesheet" href="base.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../sort-arrow-sprite.png);
+            background-image: url(sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -16,32 +16,32 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../index.html">All files</a> / <a href="index.html">src</a> graphQLServer.ts
+      <a href="index.html">All files</a> graphQLServer.ts
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">38.46% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>13/13</span>
+        <span class='fraction'>5/13</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>1/2</span>
+        <span class='fraction'>0/2</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/1</span>
+        <span class='fraction'>0/1</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">38.46% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>13/13</span>
+        <span class='fraction'>5/13</span>
       </div>
     </div>
   </div>
-  <div class='status-line high'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -79,7 +79,15 @@
 34
 35
 36
-37</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+37
+38
+39
+40
+41
+42
+43
+44
+45</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -99,21 +107,29 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import * as koa from 'koa';
 import * as koaBody from 'koa-bodyparser';
@@ -121,19 +137,27 @@ import * as koaRouter from 'koa-router';
 import { graphqlKoa, graphiqlKoa } from 'graphql-server-koa';
 import { GraphQLSchema } from 'graphql';
 &nbsp;
+/** Class representing a GraphQLServer */
 export default class GraphQLServer {
+	/** @property {koa} server Object property where the koa Server is stored. */
 	server: koa;
-&nbsp;
+	/** @property {koaRouter} router Object property where the koa router is stored. */
 	router: koaRouter;
 &nbsp;
-	constructor ( port: number, schema: GraphQLSchema, callback?: Function ) {
-		this.server = new koa();
-		this.router = new koaRouter();
+	/**
+	 * Create a GraphQL API Server
+	 * @param  {number}        port       Port for server to listen on.
+	 * @param  {GraphQLSchema} schema     Schema to query.
+	 * @param  {Function}      [callback] Callback called on .listen()
+	 */
+<span class="fstat-no" title="function not covered" >	constructor ( </span>port: number, schema: GraphQLSchema, callback?: Function ) {
+<span class="cstat-no" title="statement not covered" >		this.server = new koa();</span>
+<span class="cstat-no" title="statement not covered" >		this.router = new koaRouter();</span>
 &nbsp;
-		this.server.use(koaBody());
+<span class="cstat-no" title="statement not covered" >		this.server.use(koaBody());</span>
 &nbsp;
 		// Create GraphQL endpoint route
-		this.router.post(
+<span class="cstat-no" title="statement not covered" >		this.router.post(</span>
 			'/graphql',
 			graphqlKoa({
 				schema,
@@ -141,14 +165,14 @@ export default class GraphQLServer {
 		);
 &nbsp;
 		// Create GraphiQL route
-		this.router.get('/graphiql', graphiqlKoa({
+<span class="cstat-no" title="statement not covered" >		this.router.get('/graphiql', graphiqlKoa({</span>
 			endpointURL: '/graphql',
 		}));
-		this.server.use(this.router.routes());
-		this.server.use(this.router.allowedMethods());
+<span class="cstat-no" title="statement not covered" >		this.server.use(this.router.routes());</span>
+<span class="cstat-no" title="statement not covered" >		this.server.use(this.router.allowedMethods());</span>
 &nbsp;
 		// Start it up!
-		this.server.listen( port, callback ? callback() : null );
+<span class="cstat-no" title="statement not covered" >		this.server.listen( port, callback ? callback() : null );</span>
 	}
 }
 &nbsp;</pre></td></tr>
@@ -157,10 +181,10 @@ export default class GraphQLServer {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Dec 25 2016 00:38:00 GMT+1100 (AEDT)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Dec 24 2016 13:08:28 GMT+1100 (AEDT)
 </div>
 </div>
-<script src="../prettify.js"></script>
+<script src="prettify.js"></script>
 <script>
 window.onload = function () {
         if (typeof prettyPrint === 'function') {
@@ -168,6 +192,6 @@ window.onload = function () {
         }
 };
 </script>
-<script src="../sorter.js"></script>
+<script src="sorter.js"></script>
 </body>
 </html>

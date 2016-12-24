@@ -3,13 +3,15 @@ import ReactServer from './reactServer';
 import GraphQLServer from './graphQLServer';
 import SubServer from './subscriptionServer';
 import schema from './schema';
+import routes from './routes';
 
 import config from './config';
 
 const reactServer = new ReactServer (
 	config.reactServer.PORT,
-	() => winston.info(`React Server is now listening on http://localhost:${ config.reactServer.PORT }`),
 	config.graphQLServer.PORT,
+	routes,
+	() => winston.info(`React Server is now listening on http://localhost:${ config.reactServer.PORT }`),
 );
 
 const graphQLServer = new GraphQLServer (

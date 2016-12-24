@@ -12,20 +12,31 @@ const subscriptionServer_1 = require("../src/subscriptionServer");
 const mock_schema_1 = require("./utils/mock-schema");
 const chai = require("chai");
 const sinon = require("sinon");
+const http = require("http");
 chai.should();
 const expect = chai.expect;
+const assert = chai.assert;
 const mocha_typescript_1 = require("mocha-typescript");
 let SubscriptionServerTests = SubscriptionServerTests_1 = class SubscriptionServerTests {
     static before() {
         console.log('    Before the Tests\n      Mount the Server');
         this.serverCallback = sinon.spy();
-        this.subServer = new subscriptionServer_1.default(8080, mock_schema_1.default, { mockCall: () => { return true; } }, this.serverCallback);
+        this.subServer = new subscriptionServer_1.default(8080, mock_schema_1.subscriptionManager, this.serverCallback);
     }
     'It should return a server object.'() {
         expect(SubscriptionServerTests_1.subServer).to.be.an.instanceof(subscriptionServer_1.default);
     }
     'It should call the server callback.'() {
         SubscriptionServerTests_1.serverCallback.should.have.been.called;
+    }
+    'It should 404 an index page.'(done) {
+        http.get('http://localhost:8080/', (res) => {
+            expect(res.statusCode).to.equal(404);
+            done();
+        });
+    }
+    async 'It should publish subscriptions.'(done) {
+        done(false);
     }
 };
 __decorate([
@@ -40,8 +51,21 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], SubscriptionServerTests.prototype, "It should call the server callback.", null);
+__decorate([
+    mocha_typescript_1.test, mocha_typescript_1.timeout(1000),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], SubscriptionServerTests.prototype, "It should 404 an index page.", null);
+__decorate([
+    mocha_typescript_1.test, mocha_typescript_1.timeout(1000),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], SubscriptionServerTests.prototype, "It should publish subscriptions.", null);
 SubscriptionServerTests = SubscriptionServerTests_1 = __decorate([
-    mocha_typescript_1.suite
+    mocha_typescript_1.suite,
+    __metadata("design:paramtypes", [])
 ], SubscriptionServerTests);
 var SubscriptionServerTests_1;
 //# sourceMappingURL=subscriptionServer.spec.js.map

@@ -16,11 +16,10 @@ const apollo_client_1 = require("apollo-client");
 const react_apollo_1 = require("react-apollo");
 const react_router_1 = require("react-router");
 const path = require("path");
-const routes_1 = require("./routes");
 const Html_1 = require("./routes/Html");
 const create_apollo_client_1 = require("./helpers/create-apollo-client");
 class ReactServer {
-    constructor(port, callback, apiPort) {
+    constructor(port, apiPort, routes, callback) {
         const basePort = port;
         const apiHost = `http://localhost:${apiPort}`;
         const apiUrl = `${apiHost}/graphql`;
@@ -32,7 +31,7 @@ class ReactServer {
             let props;
             let toRender;
             await react_router_1.match({
-                routes: routes_1.default,
+                routes,
                 location: ctx.originalUrl,
             }, async (error, redirectLocation, renderProps) => {
                 if (error) {

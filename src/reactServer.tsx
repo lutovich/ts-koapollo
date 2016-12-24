@@ -10,25 +10,20 @@ import { ApolloProvider, renderToStringWithData } from 'react-apollo';
 import { match, RouterContext } from 'react-router';
 import * as path from 'path';
 
-import routes from './routes';
 import Html from './routes/Html';
 import createApolloClient from './helpers/create-apollo-client';
 
 import config from './config';
 
-/** Class representing a React Isomorphic Page Server */
 export default class ReactServer {
-	/** @property {koa} server Object property where the koa Server is stored. */
 	server: koa;
 
-	/**
-	 * Create a React Server
-	 * @param  {number}    port       Port number for server
-	 * @param  {Function}  [callback] Runs on listen()
-	 * @param  {number}    [apiPort]  Port number of API server. Defaults to value set in config.
-	 */
-	constructor ( port: number, callback?: Function, apiPort?: number ) {
-
+	constructor (
+		port: number,
+		apiPort: number,
+		routes: any,
+		callback?: Function,
+	) {
 		const basePort = port;
 		const apiHost = `http://localhost:${ apiPort }`;
 		const apiUrl = `${ apiHost }/graphql`;

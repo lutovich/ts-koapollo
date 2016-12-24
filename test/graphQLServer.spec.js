@@ -21,7 +21,7 @@ let GraphQLServerTests = GraphQLServerTests_1 = class GraphQLServerTests {
     static before() {
         console.log('    Before the Tests\n      Mount the Server');
         this.serverCallback = sinon.spy();
-        this.graphQLServer = new graphQLServer_1.default(3000, mock_schema_1.default, this.serverCallback);
+        this.graphQLServer = new graphQLServer_1.default(3000, mock_schema_1.schema, this.serverCallback);
     }
     'It should return a server object.'() {
         expect(GraphQLServerTests_1.graphQLServer).to.be.an.instanceof(graphQLServer_1.default);
@@ -51,7 +51,7 @@ let GraphQLServerTests = GraphQLServerTests_1 = class GraphQLServerTests {
             expect(xhr.status).to.equal(200);
             done();
         };
-        xhr.send(`{ "query": "{ posts {id, title} }" }`);
+        xhr.send(`{ "query": "{ posts(3) { id, title } }" }`);
     }
     'Responds accurately to a basic query.'(done) {
         const xhr = new XHR();
@@ -60,10 +60,11 @@ let GraphQLServerTests = GraphQLServerTests_1 = class GraphQLServerTests {
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('Accept', 'application/json');
         xhr.onloadend = () => {
-            const posts = xhr.response.data.posts;
-            posts.map((post, i) => {
-                expect(post.id).to.equal(6);
-                expect(post.title).to.equal('String');
+            console.log(JSON.stringify(xhr.response, null, 2));
+            const posts = xhr.response.data.post;
+            posts[0]((post, i) => {
+                expect(post.id).to.equal(3);
+                expect(post.title).to.equal('three');
             });
             done();
         };
@@ -119,7 +120,8 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], GraphQLServerTests.prototype, "Serves GraphiQL.", null);
 GraphQLServerTests = GraphQLServerTests_1 = __decorate([
-    mocha_typescript_1.suite
+    mocha_typescript_1.suite,
+    __metadata("design:paramtypes", [])
 ], GraphQLServerTests);
 var GraphQLServerTests_1;
 //# sourceMappingURL=graphQLServer.spec.js.map

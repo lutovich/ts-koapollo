@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 const reactServer_1 = require("../src/reactServer");
+const mock_routes_1 = require("./utils/mock-routes");
 const chai = require("chai");
 const sinon = require("sinon");
 const http = require("http");
@@ -19,7 +20,7 @@ let ReactServerTests = ReactServerTests_1 = class ReactServerTests {
     static before() {
         console.log('    Before the Tests\n      Mount the Server');
         this.serverCallback = sinon.spy();
-        this.reactServer = new reactServer_1.default(2000, this.serverCallback, 2010);
+        this.reactServer = new reactServer_1.default(2000, 2010, mock_routes_1.default, this.serverCallback);
     }
     'It should return a server object.'() {
         expect(ReactServerTests_1.reactServer).to.be.an.instanceof(reactServer_1.default);
@@ -39,6 +40,12 @@ let ReactServerTests = ReactServerTests_1 = class ReactServerTests {
             done();
         });
     }
+    'It should serve another path.'(done) {
+        http.get('http://localhost:2000/path', (res) => {
+            expect(res.statusCode).to.equal(200);
+            done();
+        });
+    }
     'It should serve the js bundle.'(done) {
         http.get('http://localhost:2000/bundle.js', (res) => {
             expect(res.statusCode).to.equal(200);
@@ -48,6 +55,12 @@ let ReactServerTests = ReactServerTests_1 = class ReactServerTests {
     'It should throw a 404 on a non existent page.'(done) {
         http.get('http://localhost:2000/idontexist', (res) => {
             expect(res.statusCode).to.equal(404);
+            done();
+        });
+    }
+    'It should throw a 302 on redirect.'(done) {
+        http.get('http://localhost:2000/redirect', (res) => {
+            expect(res.statusCode).to.equal(302);
             done();
         });
     }
@@ -81,6 +94,12 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
+], ReactServerTests.prototype, "It should serve another path.", null);
+__decorate([
+    mocha_typescript_1.test, mocha_typescript_1.timeout(1000),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
 ], ReactServerTests.prototype, "It should serve the js bundle.", null);
 __decorate([
     mocha_typescript_1.test, mocha_typescript_1.timeout(1000),
@@ -88,6 +107,12 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ReactServerTests.prototype, "It should throw a 404 on a non existent page.", null);
+__decorate([
+    mocha_typescript_1.test, mocha_typescript_1.timeout(1000),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], ReactServerTests.prototype, "It should throw a 302 on redirect.", null);
 ReactServerTests = ReactServerTests_1 = __decorate([
     mocha_typescript_1.suite,
     __metadata("design:paramtypes", [])

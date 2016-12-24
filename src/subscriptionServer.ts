@@ -5,23 +5,9 @@ import { GraphQLSchema } from 'graphql';
 
 import config from './config';
 
-/** Class representing a Subscription Server */
 export default class SubServer {
-	/**
-	 * Create a Subscription Server
-	 * @param  {number}        port            Port on which the server will listen
-	 * @param  {GraphQLSchema} schema          GraphQL Schema to query
-	 * @param  {Object}        setupFunctions  An object containing functionality of subscription server
-	 * @param  {Function}      [callback]      Runs on .listen()
-	 */
 	// TODO: Get a proper type definition for SetupFunctions here. Currently defined privately.
-	constructor ( port: number, schema: GraphQLSchema, setupFunctions: any, callback?: Function ) {
-		const pubsub = new PubSub();
-		const subscriptionManager = new SubscriptionManager({
-			schema,
-			pubsub,
-			setupFunctions,
-		})
+	constructor ( port: number, subscriptionManager: SubscriptionManager, callback?: Function ) {
 
 		const websocketServer = createServer(
 			( request, response ) => {
@@ -31,13 +17,7 @@ export default class SubServer {
 		);
 
 		websocketServer.listen ( port, callback() );
-
-		const subscriptionServer = new SubscriptionServer({
-			subscriptionManager,
-			onSubscribe: ( msg, params ) => {
-				return null;
-			},
-		},
-	websocketServer);
+		// TODO: Add WS Subscription Functionality.
+		// Gotta figure out how it works first.
 	}
 }
