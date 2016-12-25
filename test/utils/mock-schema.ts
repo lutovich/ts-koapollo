@@ -9,6 +9,7 @@ import {
 	GraphQLObjectType,
 	GraphQLSchema,
 	GraphQLString,
+	GraphQLInt,
 } from 'graphql';
 
 import winston from 'winston';
@@ -16,16 +17,16 @@ import winston from 'winston';
 // TODO: Add subscriptions function call in mutation calls
 
 const data = {
-	'1': {
-		'id': '1',
+	1: {
+		'id': 1,
 		'title': 'one',
 	},
-	'2': {
-		'id': '2',
+	2: {
+		'id': 2,
 		'title': 'two',
 	},
-	'3': {
-		'id': '3',
+	3: {
+		'id': 3,
 		'title': 'three',
 	},
 };
@@ -33,7 +34,7 @@ const data = {
 const postType = new GraphQLObjectType({
 	name: 'Post',
 	fields: {
-		id: { type: GraphQLString },
+		id: { type: GraphQLInt },
 		title: { type: GraphQLString },
 	},
 });
@@ -45,7 +46,7 @@ const schema = new GraphQLSchema({
 			posts: {
 				type: postType,
 				args: {
-					id: { type: GraphQLString },
+					id: { type: GraphQLInt },
 				},
 				resolve: (_, {id}) => {
 					return data[id];
@@ -59,7 +60,7 @@ const schema = new GraphQLSchema({
 			post: {
 				type: postType,
 				args: {
-					id: { type: GraphQLString },
+					id: { type: GraphQLInt },
 				},
 				resolve: (_, {id}) => {
 					return data[id];
@@ -68,7 +69,7 @@ const schema = new GraphQLSchema({
 			postFiltered: {
 				type: postType,
 				args: {
-					id: { type: GraphQLString },
+					id: { type: GraphQLInt },
 				},
 				resolve: (_, {id}) => {
 					return data[id];

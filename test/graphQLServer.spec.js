@@ -51,7 +51,7 @@ let GraphQLServerTests = GraphQLServerTests_1 = class GraphQLServerTests {
             expect(xhr.status).to.equal(200);
             done();
         };
-        xhr.send(`{ "query": "{ posts(3) { id, title } }" }`);
+        xhr.send(`{ "query": "{ posts(id: 3) { id, title } }" }`);
     }
     'Responds accurately to a basic query.'(done) {
         const xhr = new XHR();
@@ -60,15 +60,12 @@ let GraphQLServerTests = GraphQLServerTests_1 = class GraphQLServerTests {
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('Accept', 'application/json');
         xhr.onloadend = () => {
-            console.log(JSON.stringify(xhr.response, null, 2));
-            const posts = xhr.response.data.post;
-            posts[0]((post, i) => {
-                expect(post.id).to.equal(3);
-                expect(post.title).to.equal('three');
-            });
+            const posts = xhr.response.data.posts;
+            expect(posts.id).to.equal(3);
+            expect(posts.title).to.equal('three');
             done();
         };
-        xhr.send(`{ "query": "{ posts {id, title} }" }`);
+        xhr.send(`{ "query": "{ posts(id: 3) {id, title} }" }`);
     }
     'Serves GraphiQL.'(done) {
         http.get('http://localhost:3000/graphiql', (res) => {

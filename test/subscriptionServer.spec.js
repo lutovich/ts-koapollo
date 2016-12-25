@@ -13,6 +13,7 @@ const mock_schema_1 = require("./utils/mock-schema");
 const chai = require("chai");
 const sinon = require("sinon");
 const http = require("http");
+const subscriptions_transport_ws_1 = require("subscriptions-transport-ws");
 chai.should();
 const expect = chai.expect;
 const assert = chai.assert;
@@ -21,7 +22,8 @@ let SubscriptionServerTests = SubscriptionServerTests_1 = class SubscriptionServ
     static before() {
         console.log('    Before the Tests\n      Mount the Server');
         this.serverCallback = sinon.spy();
-        this.subServer = new subscriptionServer_1.default(8080, mock_schema_1.subscriptionManager, this.serverCallback);
+        this.subscriptionManager = mock_schema_1.subscriptionManager;
+        this.subServer = new subscriptionServer_1.default(8080, this.subscriptionManager, this.serverCallback);
     }
     'It should return a server object.'() {
         expect(SubscriptionServerTests_1.subServer).to.be.an.instanceof(subscriptionServer_1.default);
@@ -35,8 +37,29 @@ let SubscriptionServerTests = SubscriptionServerTests_1 = class SubscriptionServ
             done();
         });
     }
-    async 'It should publish subscriptions.'(done) {
-        done(false);
+    'It should publish subscriptions.'(done) {
+        const client = new subscriptions_transport_ws_1.Client('ws://localhost:8080/');
+        setTimeout(() => {
+            client.subscribe({
+                query: 'subscription postInfo($id: Int) { post(id: $id) { id, title } }',
+                operationName: 'postInfo',
+                variables: { id: 3 },
+            }, (error, result) => {
+                if (error) {
+                    console.log(error);
+                    done(error);
+                }
+                if (result) {
+                    expect(result).to.haveOwnProperty('post');
+                    expect(result.post.id).to.equal(3);
+                    expect(result.post.title).to.equal('three');
+                    done();
+                }
+            });
+        }, 100);
+        setTimeout(() => {
+            SubscriptionServerTests_1.subscriptionManager.publish('post', { id: 3 });
+        }, 200);
     }
 };
 __decorate([
@@ -61,7 +84,7 @@ __decorate([
     mocha_typescript_1.test, mocha_typescript_1.timeout(1000),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", void 0)
 ], SubscriptionServerTests.prototype, "It should publish subscriptions.", null);
 SubscriptionServerTests = SubscriptionServerTests_1 = __decorate([
     mocha_typescript_1.suite,

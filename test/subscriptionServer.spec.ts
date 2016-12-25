@@ -29,17 +29,15 @@ import {
 @suite class SubscriptionServerTests {
 	static subServer: SubServer;
 	static serverCallback: sinon.SinonSpy;
-	static client: Client;
 	static subscriptionManager: SubscriptionManager;
-	static pubsub: PubSub;
-	static graphQLServer: GraphQLServer;
 
 	static before() {
 		console.log('    Before the Tests\n      Mount the Server');
 		this.serverCallback = sinon.spy();
+		this.subscriptionManager = subscriptionManager;
 		this.subServer = new SubServer(
 			8080,
-			subscriptionManager,
+			this.subscriptionManager,
 			this.serverCallback,
 		);
 	}
@@ -55,8 +53,29 @@ import {
 			done();
 		});
 	}
-	@test @timeout(1000) async 'It should publish subscriptions.'( done ) {
-		done( false );
+	@test @timeout(1000) 'It should publish subscriptions.'( done ) {
+		const client = new Client('ws://localhost:8080/');
+		setTimeout( () => { client.subscribe({
+			query: 'subscription postInfo($id: Int) { post(id: $id) { id, title } }',
+			operationName: 'postInfo',
+			variables: { id: 3 },
+		},
+		(error, result) => {
+			if ( error ) {
+				console.log( error );
+				done( error );
+			}
+			if ( result ) {
+				expect( result ).to.haveOwnProperty( 'post' );
+				expect( result.post.id ).to.equal( 3 );
+				expect( result.post.title ).to.equal( 'three' );
+				done();
+			}
+		})}, 100 );
+		setTimeout( () => { SubscriptionServerTests.subscriptionManager.publish(
+			'post',
+			{ id: 3 },
+		)}, 200 );
 	}
 	// TODO: Finish Testing Subscriptions using Client from subscriptions-transport-ws
 }

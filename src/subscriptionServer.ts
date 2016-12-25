@@ -17,7 +17,10 @@ export default class SubServer {
 		);
 
 		websocketServer.listen ( port, callback() );
-		// TODO: Add WS Subscription Functionality.
-		// Gotta figure out how it works first.
+
+		const subscriptionServer = new SubscriptionServer({
+			subscriptionManager,
+		},
+		websocketServer);
 	}
 }

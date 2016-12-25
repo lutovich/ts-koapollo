@@ -2,23 +2,23 @@
 const graphql_subscriptions_1 = require("graphql-subscriptions");
 const graphql_1 = require("graphql");
 const data = {
-    '1': {
-        'id': '1',
+    1: {
+        'id': 1,
         'title': 'one',
     },
-    '2': {
-        'id': '2',
+    2: {
+        'id': 2,
         'title': 'two',
     },
-    '3': {
-        'id': '3',
+    3: {
+        'id': 3,
         'title': 'three',
     },
 };
 const postType = new graphql_1.GraphQLObjectType({
     name: 'Post',
     fields: {
-        id: { type: graphql_1.GraphQLString },
+        id: { type: graphql_1.GraphQLInt },
         title: { type: graphql_1.GraphQLString },
     },
 });
@@ -29,7 +29,7 @@ const schema = new graphql_1.GraphQLSchema({
             posts: {
                 type: postType,
                 args: {
-                    id: { type: graphql_1.GraphQLString },
+                    id: { type: graphql_1.GraphQLInt },
                 },
                 resolve: (_, { id }) => {
                     return data[id];
@@ -43,7 +43,7 @@ const schema = new graphql_1.GraphQLSchema({
             post: {
                 type: postType,
                 args: {
-                    id: { type: graphql_1.GraphQLString },
+                    id: { type: graphql_1.GraphQLInt },
                 },
                 resolve: (_, { id }) => {
                     return data[id];
@@ -52,7 +52,7 @@ const schema = new graphql_1.GraphQLSchema({
             postFiltered: {
                 type: postType,
                 args: {
-                    id: { type: graphql_1.GraphQLString },
+                    id: { type: graphql_1.GraphQLInt },
                 },
                 resolve: (_, { id }) => {
                     return data[id];
