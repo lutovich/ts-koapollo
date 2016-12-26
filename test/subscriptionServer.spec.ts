@@ -45,7 +45,7 @@ import {
 		expect(SubscriptionServerTests.subServer).to.be.an.instanceof(SubServer);
 	}
 	@test 'It should call the server callback.'() {
-		SubscriptionServerTests.serverCallback.should.have.been.called;
+		SubscriptionServerTests.serverCallback.should.have.been.called; // tslint:disable-line:no-unused-expression
 	}
 	@test @timeout(1000) 'It should 404 an index page.'( done ) {
 		http.get('http://localhost:8080/', ( res ) => {

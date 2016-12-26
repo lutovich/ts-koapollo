@@ -39,7 +39,7 @@ import {
 		expect(ReactServerTests.reactServer).to.be.an.instanceof(ReactServer);
 	}
 	@test 'It should call the server callback.'() {
-		ReactServerTests.serverCallback.should.have.been.called;
+		ReactServerTests.serverCallback.should.have.been.called; // tslint:disable-line:no-unused-expression
 	}
 	@test @timeout(1000) 'It should be listening on the designated port.' ( done ) {
 		http.get('http://localhost:2000', ( res ) => {

@@ -51,6 +51,7 @@ export default class ReactServer {
 					ctx.redirect( redirectLocation.pathname + redirectLocation.search );
 				} else if ( renderProps ) {
 					props = renderProps;
+					/* tslint:disable:object-literal-sort-keys */
 					client = createApolloClient({
 						ssrMode: true,
 						networkInterface: createNetworkInterface({
@@ -60,6 +61,7 @@ export default class ReactServer {
 								headers: ctx.headers,
 							},
 						}),
+						/* tslint:enable:object-literal-sort-keys */
 					});
 
 					const component = (

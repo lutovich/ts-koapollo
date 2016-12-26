@@ -16,6 +16,7 @@ import winston from 'winston';
 
 // TODO: Add subscriptions function call in mutation calls
 
+/* tslint:disable:object-literal-key-quotes */
 const data = {
 	1: {
 		'id': 1,
@@ -30,7 +31,8 @@ const data = {
 		'title': 'three',
 	},
 };
-
+/* tslint:enable:object-literal-key-quotes */
+/* tslint:disable:object-literal-sort-keys */
 const postType = new GraphQLObjectType({
 	name: 'Post',
 	fields: {
@@ -85,7 +87,7 @@ const subscriptionManager = new SubscriptionManager({
 	setupFunctions: {
 		postFiltered: ( options: SubscriptionOptions, args: { [key: string]: any } ) => ({
 			postFiltered: {
-				filter: ( post: any ) => { return !args['id'] || post.id === args['id'] },
+				filter: ( post: any ) => { return !args['id'] || post.id === args['id']; }, // tslint:disable-line:no-string-literal
 			},
 		}),
 	},

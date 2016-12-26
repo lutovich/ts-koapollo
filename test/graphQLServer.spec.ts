@@ -36,7 +36,7 @@ import {
 		expect(GraphQLServerTests.graphQLServer).to.be.an.instanceof(GraphQLServer);
 	}
 	@test 'It should call the server callback.'() {
-		GraphQLServerTests.serverCallback.should.have.been.called;
+		GraphQLServerTests.serverCallback.should.have.been.called; // tslint:disable-line:no-unused-expression
 	}
 	@test @timeout(1000) 'It should be listening on the designated port.' ( done ) {
 		http.get('http://localhost:3000', ( res ) => {
@@ -59,7 +59,7 @@ import {
 		xhr.onloadend = () => {
 			expect( xhr.status ).to.equal( 200 );
 			done();
-		}
+		};
 		xhr.send( `{ "query": "{ posts(id: 3) { id, title } }" }` );
 	}
 	@test @timeout(1000) 'Responds accurately to a basic query.' ( done ) {
@@ -73,13 +73,13 @@ import {
 			expect( posts.id ).to.equal( 3 );
 			expect( posts.title ).to.equal( 'three' );
 			done();
-		}
+		};
 		xhr.send( `{ "query": "{ posts(id: 3) {id, title} }" }` );
 	}
 	@test @timeout(1000) 'Serves GraphiQL.' ( done ) {
 		http.get('http://localhost:3000/graphiql', ( res ) => {
 			expect( res.statusCode ).to.equal( 200 );
 			done();
-		})
+		});
 	}
 }
