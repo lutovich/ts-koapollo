@@ -1,39 +1,37 @@
 "use strict";
-const neo4j_1 = require("neo4j");
-let db = new neo4j_1.GraphDatabase('http://localhost:7474');
-exports.db = db;
+const db_1 = require("./db");
 const getNodeById = (id) => {
     return new Promise((resolve, reject) => {
-        let node = db.cypher({
-            query: `
+        db_1.default.run({
+            statement: `
 				MATCH (n:DATA {id: {id}})
 				RETURN n
 			`,
-            params: { id },
-            lean: true,
-        }, (err, results) => {
-            if (err)
-                reject(err);
+            parameters: { id },
+        })
+            .then((results) => {
             resolve(results);
+        })
+            .catch((err) => {
+            console.error(err);
         });
     });
 };
 exports.getNodeById = getNodeById;
-const getFieldsByParent = (field, parent) => {
+const getFieldsByParent = (relname, parent) => {
     return new Promise((resolve, reject) => {
-        db.cypher({
-            query: `
-			MATCH (n:DATA {id: {parent}})-[:INSTANCE_OF]->()-[:Field {name: {field}}]->(x)<-[:INSTANCE_OF]-(f:DATA)
-				MATCH (f)--(n)
-			RETURN f
+        db_1.default.run({
+            statements: `
+				MATCH (n:DATA {id: {parent}})-[:Field {relname: {field}}]-(f:DATA)
+				RETURN f
 			`,
-            params: { field, parent },
-            lean: true,
-        }, (err, results) => {
-            if (err) {
-                reject(err);
-            }
+            parameters: { relname, parent },
+        })
+            .then((results) => {
             resolve(results);
+        })
+            .catch((err) => {
+            console.error(err);
         });
     });
 };

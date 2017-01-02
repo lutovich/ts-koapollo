@@ -1,38 +1,39 @@
-import { GraphDatabase, Transaction } from 'neo4j';
-
-let db = new GraphDatabase('http://localhost:7474');
+import session from './db';
 
 const getNodeById = ( id: string ) => {
 	return new Promise( ( resolve, reject ) => {
-		let node = db.cypher({
-			query: `
+		session.run({
+			statement: `
 				MATCH (n:DATA {id: {id}})
 				RETURN n
 			`,
-			params: { id },
-			lean: true,
-		}, ( err, results ) => {
-			if ( err ) reject( err );
+			parameters: { id },
+		})
+		.then( ( results ) => {
 			resolve( results );
-		} );
+		})
+		.catch( ( err ) => {
+			console.error( err );
+		});
 	});
 };
 
-const getFieldsByParent = ( field: string, parent: string ) => {
+const getFieldsByParent = ( relname: string, parent: string ) => {
 	return new Promise( ( resolve, reject ) => {
-		db.cypher({
-			query: `
-			MATCH (n:DATA {id: {parent}})-[:INSTANCE_OF]->()-[:Field {name: {field}}]->(x)<-[:INSTANCE_OF]-(f:DATA)
-				MATCH (f)--(n)
-			RETURN f
+		session.run({
+			statements: `
+				MATCH (n:DATA {id: {parent}})-[:Field {relname: {field}}]-(f:DATA)
+				RETURN f
 			`,
-			params: { field, parent },
-			lean: true,
-		}, ( err, results ) => {
-			if ( err ) { reject( err ); }
+			parameters: { relname, parent },
+		})
+		.then( ( results ) => {
 			resolve( results );
-		} );
+		})
+		.catch( ( err ) => {
+			console.error( err );
+		});
 	} );
 };
 
-export { db, getNodeById, getFieldsByParent };
+export { getNodeById, getFieldsByParent };

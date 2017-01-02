@@ -1,5 +1,3 @@
-import * as neo4j from 'neo4j';
-
 const query = `
 	CREATE (string:SCHEMA:TEST:Type {name: 'String'})
 	CREATE (int:SCHEMA:TEST:Type {name: 'Int'})
@@ -12,15 +10,14 @@ const query = `
 	CREATE (comment:SCHEMA:TEST:Type {name: 'Comment'})
 	CREATE (post)-[:Field {name: 'id'}]->(id)
 	CREATE (post)-[:Field {name: 'title'}]->(string)
-	CREATE (post)-[:Field {name: 'author', in: 'posts'}]->(author)
-	CREATE (post)-[:Field {name: 'comments'}]->(comment)
+	CREATE (post)-[:Field {name: 'author', relname: 'postauthor'}]->(author)
+	CREATE (post)-[:Field {name: 'comments', relname: 'postcomments'}]->(comment)
 	CREATE (comment)-[:Field {name: 'id'}]->(id)
-	CREATE (comment)-[:Field {name: 'author'}]->(author)
-	CREATE (comment)-[:Field {name: 'post'}]->(post)
+	CREATE (comment)-[:Field {name: 'author', relname: 'commentauthor'}]->(author)
 	CREATE (author)-[:Field {name: 'id'}]->(id)
 	CREATE (author)-[:Field {name: 'name'}]->(string)
-	CREATE (author)-[:Field {name: 'posts'}]->(post)
-	CREATE (author)-[:Field {name: 'comments'}]->(comment)
+	CREATE (author)-[:Field {name: 'posts', relname: 'postauthor'}]->(post)
+	CREATE (author)-[:Field {name: 'comments', relname: 'commentauthor'}]->(comment)
 	CREATE (query)-[:Field {name: 'posts'}]->(post)
 	CREATE (query)-[:Field {name: 'authors'}]->(author)
 
@@ -28,15 +25,15 @@ const query = `
 	CREATE (a1)-[:INSTANCE_OF]->(author)
 	CREATE (a2:DATA:TEST:Author {id: 'aab', name: 'Bob'})
 	CREATE (a2)-[:INSTANCE_OF]->(author)
-	CREATE (p1:DATA:TEST:Post {id: 'paa', title: 'Title 1'})-[:HAS]->(a1)
+	CREATE (p1:DATA:TEST:Post {id: 'paa', title: 'Title 1'})-[:Field {relname: 'postauthor'}]->(a1)
 	CREATE (p1)-[:INSTANCE_OF]->(post)
-	CREATE (p2:DATA:TEST:Post {id: 'pab', title: 'Title 2'})-[:HAS]->(a1)
+	CREATE (p2:DATA:TEST:Post {id: 'pab', title: 'Title 2'})-[:Field {relname: 'postauthor'}]->(a1)
 	CREATE (p2)-[:INSTANCE_OF]->(post)
-	CREATE (c1:DATA:TEST:Comment {id: 'caa'})<-[:HAS]-(p1)
-	CREATE (c1)-[:HAS]->(a2)
+	CREATE (c1:DATA:TEST:Comment {id: 'caa'})<-[:Field {relname: 'postcomments'}]-(p1)
+	CREATE (c1)-[:Field {relname: 'commentauthor'}]->(a2)
 	CREATE (c1)-[:INSTANCE_OF]->(comment)
-	CREATE (c2:DATA:TEST:Comment {id: 'cab'})<-[:HAS]-(p1)
-	CREATE (c2)-[:HAS]->(a1)
+	CREATE (c2:DATA:TEST:Comment {id: 'cab'})<-[:Field {relname: 'postcomments'}]-(p1)
+	CREATE (c2)-[:Field {relname: 'commentauthor'}]->(a1)
 	CREATE (c2)-[:INSTANCE_OF]->(comment)
 `;
 
