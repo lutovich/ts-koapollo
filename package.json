@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build-client": "webpack",
-    "start": "ts-node src",
-    "test": "nyc --cover --require ts-node/register node --harmony-async-await ./node_modules/.bin/_mocha --harmony"
+    "start": "ts-node src --harmony",
+    "test": "mocha --harmony",
+    "test2": "nyc --cover --require ts-node/register node --harmony-async-await ./node_modules/.bin/_mocha --harmony"
   },
   "nyc": {
     "include": [
@@ -46,8 +47,7 @@
     "koa-route": "^3.2.0",
     "koa-router": "^7.0.1",
     "koa-static": "^3.0.0",
-    "neo4j": "^2.0.0-RC2",
-    "neo4j-driver": "SnappyCroissant/neo4j-javascript-driver#2c8252c",
+    "neo4j-driver": "^1.1.0-RC1",
     "react": "^15.4.1",
     "react-apollo": "^0.7.1",
     "react-dom": "^15.4.1",

@@ -2,15 +2,21 @@ import * as v1 from 'neo4j-driver';
 
 const neo4j = v1.v1;
 
-console.log( JSON.stringify( neo4j, null, 2 ) );
+const auth = neo4j.auth.basic( 'neo4j', 'password' );
 
-const driver = neo4j.driver( 'bolt://localhost', neo4j.auth.basic( 'neo4j', 'password' ) );
+console.log( JSON.stringify( auth ));
 
-const session = driver.session();
+const driver = neo4j.driver( 'bolt://localhost', auth );
 
-export default session;
+driver.onCompleted = () => console.log('Neo4j Driver session created.');
+driver.onError = (error) => {
+	console.log('Neo4j Driver instantiation failed', error);
+	throw error;
+};
 
-process.on('SIGINT', () => {
+export default driver;
+
+process.on('exit', () => {
 	console.log('Terminating neo4j Session');
 
 	driver.close();

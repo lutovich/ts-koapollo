@@ -1,4 +1,2 @@
---require ts-node/register
---require test/utils/dom.ts
 --full-trace
-test/**/*.spec.ts test/**/*.spec.tsx
+test/**/*.spec.js

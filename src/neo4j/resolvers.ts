@@ -1,7 +1,8 @@
-import session from './db';
+import driver from './db';
 
 const getNodeById = ( id: string ) => {
 	return new Promise( ( resolve, reject ) => {
+		const session = driver.session();
 		session.run({
 			statement: `
 				MATCH (n:DATA {id: {id}})
@@ -11,15 +12,18 @@ const getNodeById = ( id: string ) => {
 		})
 		.then( ( results ) => {
 			resolve( results );
+			session.close();
 		})
 		.catch( ( err ) => {
 			console.error( err );
+			session.close();
 		});
 	});
 };
 
 const getFieldsByParent = ( relname: string, parent: string ) => {
 	return new Promise( ( resolve, reject ) => {
+		const session = driver.session();
 		session.run({
 			statements: `
 				MATCH (n:DATA {id: {parent}})-[:Field {relname: {field}}]-(f:DATA)
@@ -29,9 +33,11 @@ const getFieldsByParent = ( relname: string, parent: string ) => {
 		})
 		.then( ( results ) => {
 			resolve( results );
+			session.close();
 		})
 		.catch( ( err ) => {
 			console.error( err );
+			session.close();
 		});
 	} );
 };
