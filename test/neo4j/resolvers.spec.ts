@@ -15,7 +15,7 @@ describe( 'GetNodeByIdTests', function () {
 	before( function ( done ) {
 		const session = driver.session();
 		console.log('      Initialising MockDB');
-		session.run( { statements: query } )
+		session.run( query )
 			.then( ( result ) => {
 				console.log('      Initialised MockDB');
 				session.close();
@@ -29,7 +29,7 @@ describe( 'GetNodeByIdTests', function () {
 	} );
 	after( function ( done ) {
 		const session = driver.session();
-		session.run( { statements: wipeQuery } )
+		session.run( wipeQuery )
 			.then ( ( result ) => {
 				console.log('      Wiped MockDB');
 				session.close();

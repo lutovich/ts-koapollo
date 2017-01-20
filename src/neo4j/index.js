@@ -8,13 +8,11 @@ scalarTypes['String'] = graphql_1.GraphQLString;
 scalarTypes['Int'] = graphql_1.GraphQLInt;
 let schemaTypes = {};
 console.log(JSON.stringify(schemaTypes, null, 2));
-db_1.default.run({
-    statements: `
+db_1.default.run(`
 	MATCH (p:SCHEMA:Type)
 		OPTIONAL MATCH (p)-[r:Field]-(n:SCHEMA:Type)
 		RETURN p.name as name, collect({name: r.name, relname: r.relname, type: n.name}) as fields
-	`,
-})
+	`)
     .then((results) => {
     results.map((type) => {
         schemaTypes[type.name] = new graphql_1.GraphQLObjectType({

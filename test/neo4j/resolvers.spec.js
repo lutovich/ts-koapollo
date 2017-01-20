@@ -8,7 +8,7 @@ describe('GetNodeByIdTests', function () {
     before(function (done) {
         const session = db_1.default.session();
         console.log('      Initialising MockDB');
-        session.run({ statements: mock_db_builder_1.query })
+        session.run(mock_db_builder_1.query)
             .then((result) => {
             console.log('      Initialised MockDB');
             session.close();
@@ -22,7 +22,7 @@ describe('GetNodeByIdTests', function () {
     });
     after(function (done) {
         const session = db_1.default.session();
-        session.run({ statements: mock_db_builder_1.wipeQuery })
+        session.run(mock_db_builder_1.wipeQuery)
             .then((result) => {
             console.log('      Wiped MockDB');
             session.close();

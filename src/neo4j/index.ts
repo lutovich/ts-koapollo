@@ -31,13 +31,11 @@ let schemaTypes: { [key: string]: GraphQLObjectType } = {};
 
 console.log( JSON.stringify(schemaTypes, null, 2) );
 
-session.run({
-	statements: `
+session.run(`
 	MATCH (p:SCHEMA:Type)
 		OPTIONAL MATCH (p)-[r:Field]-(n:SCHEMA:Type)
 		RETURN p.name as name, collect({name: r.name, relname: r.relname, type: n.name}) as fields
-	`,
-} )
+	`)
 	.then( ( results ) => {
 		results.map( ( type ) => {
 			schemaTypes[ type.name ] = new GraphQLObjectType({
